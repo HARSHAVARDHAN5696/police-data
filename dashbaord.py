@@ -8,10 +8,16 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import zipfile
 
-# Load the dataset
-file_path = r"C:\Users\hp\OneDrive\Documents\P PROJECTS\h\Police_Bulk_Data_2014_20241116.csv" 
-df = pd.read_csv(file_path)
+zip_file = "Police_Bulk_Data.zip"
+csv_file = "Police_Bulk_Data_2014_20241116.csv"
+
+# Read the CSV from the ZIP
+with zipfile.ZipFile(zip_file, 'r') as z:
+    with z.open(csv_file) as f:
+        df = pd.read_csv(f)
+
 
 # Convert 'offensedate' to datetime and extract the day of the week
 df['offensedate'] = pd.to_datetime(df['offensedate'], errors='coerce')
